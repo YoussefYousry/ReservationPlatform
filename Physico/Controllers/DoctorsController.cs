@@ -66,9 +66,9 @@ namespace Physico.Controllers
                 FileStream file = await _filesRepository.GetImageToUser(userId);
                 return new FileStreamResult(file, "image/png");
             }
-            catch (UnauthorizedAccessException ex)
+            catch (FileNotFoundException ex)
             {
-                return BadRequest($"User doesn't have an Image : {ex}");
+                return BadRequest($"User with ID {userId} doesn't have an Image ");
             }
 
         }
