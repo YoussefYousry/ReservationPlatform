@@ -28,6 +28,7 @@ namespace Physico_DAL.Data
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new RoleConfigurations());
             builder.AddInhertanceTaples();
+            builder.AddIndexes();
             builder.AddOneToManyRelationship();
 
         }

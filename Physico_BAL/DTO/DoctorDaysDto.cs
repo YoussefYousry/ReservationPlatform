@@ -17,10 +17,11 @@ namespace Physico_BAL.DTO
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateOnly AppointmentDay { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:hh':'mm':'ss}", ApplyFormatInEditMode = true)]
-        public TimeSpan Start { get; set; }
+        //[DisplayFormat(DataFormatString = "{0:hh':'mm':'ss}", ApplyFormatInEditMode = true)]
+        //public TimeSpan Start { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:hh':'mm':'ss}", ApplyFormatInEditMode = true)]
-        public TimeSpan End { get; set; }
+        //[DisplayFormat(DataFormatString = "{0:hh':'mm':'ss}", ApplyFormatInEditMode = true)]
+        //public TimeSpan End { get; set; }
+        public List<string>? Times { get; set; }
     }
 }

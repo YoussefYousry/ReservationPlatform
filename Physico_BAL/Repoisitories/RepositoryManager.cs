@@ -53,7 +53,7 @@ namespace Physico_BAL.Repoisitories
         {
             get
             {
-                _doctorDays ??= new DoctorDaysRepoistory(_context);
+                _doctorDays ??= new DoctorDaysRepoistory(_context , _mapper);
                 return _doctorDays;
             }
         }

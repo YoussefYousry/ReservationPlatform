@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace Physico_BAL.DTO
 {
-    public class DoctorDaysForCreationDto
+    public class DoctorDaysForUpdateDto
     {
-        public string? DoctorId { get; set; }
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateOnly AppointmentDay { get; set; }
-
         [DisplayFormat(DataFormatString = "{0:hh':'mm':'ss}", ApplyFormatInEditMode = true)]
         public TimeSpan Start { get; set; }
 

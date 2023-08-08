@@ -21,5 +21,9 @@ namespace Physico_DAL.Configurations
             builder.Entity<Appointment>().HasOne(d => d.DoctorObject).WithMany(a => a.Appointments).OnDelete(DeleteBehavior.NoAction);
             builder.Entity<DoctorDays>().HasOne(d => d.DoctorObject).WithMany(d => d.Days).OnDelete(DeleteBehavior.NoAction);
         }
+        public static void AddIndexes(this ModelBuilder builder)
+        {
+            builder.Entity<DoctorDays>().HasIndex(n => new { n.DoctorId  ,n.AppointmentDay}).IsUnique();
+        }
     }
 }

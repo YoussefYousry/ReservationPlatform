@@ -17,6 +17,9 @@ namespace Physico_BAL
             CreateMap<DoctorForRegistrationDto, Doctor>();
             CreateMap<UserForLoginDto , User>();
             CreateMap<Doctor, DoctorDto>();
+            CreateMap<DoctorDaysForCreationDto , DoctorDays>();
+            CreateMap<DoctorDaysForUpdateDto , DoctorDays>();
+            CreateMap<DoctorDays ,DoctorDaysDto>();
         }
     }
 }
