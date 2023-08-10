@@ -76,7 +76,7 @@ namespace Physico.Extensions
             services.AddScoped<IDoctorDaysRepoistory, DoctorDaysRepoistory>();
             services.AddScoped<IAppointmentRepoistory, AppointmentRepoistory>();
             services.AddScoped<IAuthService , AuthService>();
-           // services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IEmailService, EmailService>();
         }
 
         }

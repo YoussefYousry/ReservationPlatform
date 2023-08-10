@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Services\" />
-    <Folder Include="RepoisitoriesExtensions\" />
-    <Folder Include="RequestFeatures\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -16,9 +16,12 @@ namespace Physico_BAL.Repoisitories
     public class DoctorDaysRepoistory : RepositoryBase<DoctorDays> , IDoctorDaysRepoistory
     {
         private readonly IMapper _mapper;
-        public DoctorDaysRepoistory(AppDbContext context , IMapper mapper):base(context)
+        private IAppointmentRepoistory _appointment;
+        public DoctorDaysRepoistory(AppDbContext context , IMapper mapper, IAppointmentRepoistory appointment) : base(context)
         {
             _mapper = mapper;
+            _appointment = appointment;
+
         }
         public void Create(List<DoctorDays> doctorDays) 
         {
@@ -27,10 +30,6 @@ namespace Physico_BAL.Repoisitories
         public void DeleteDoctorDay(DoctorDays doctorDays) =>Delete(doctorDays);
         public void UpdateDoctorDay(DoctorDays doctorDays) => Update(doctorDays);
 
-        //public async Task<DoctorDaysDto?> GetDoctorDay(string doctorId, DateOnly day)
-        //=> await FindByCondition(d => d.AppointmentDay == day, trackChanges: false)
-        //    .ProjectTo<DoctorDaysDto>(_mapper.ConfigurationProvider)
-        //    .FirstOrDefaultAsync();
         public async Task<DoctorDaysDto?> GetDoctorDay(string doctorId, DateOnly day)
         {
             var doctorDay = await FindByCondition(d => d.DoctorId == doctorId && d.AppointmentDay == day, trackChanges: false)
@@ -43,7 +42,11 @@ namespace Physico_BAL.Repoisitories
 
             for (var time = doctorDay!.start; time <= doctorDay.end; time += duration)
             {
-                times.Add(time.ToString());
+                var isAvailable = await IsAppointmentAvailable(doctorId, doctorDay.day, time);
+                if (isAvailable)
+                {
+                    times.Add(time.ToString());
+                }
             }
 
             var doctorDayVM = new DoctorDaysDto
@@ -56,6 +59,7 @@ namespace Physico_BAL.Repoisitories
 
             return doctorDayVM;
         }
+
         public async Task<IEnumerable<DoctorDaysDto?>> GetDoctorDays(string doctorId)
         {
             var doctorDays = await FindByCondition(d => d.DoctorId== doctorId, trackChanges: false)
@@ -70,7 +74,11 @@ namespace Physico_BAL.Repoisitories
                 var times = new List<string>();
                 for(var time = doctorDay.start; time<= doctorDay.end; time+= duration)
                 {
-                    times.Add(time.ToString());
+                    var isAvailable = await IsAppointmentAvailable(doctorId, doctorDay.day, time);
+                    if (isAvailable)
+                    {
+                        times.Add(time.ToString());
+                    }
                 }
                 doctorDaysVM.Add(new DoctorDaysDto
                 {
@@ -86,5 +94,18 @@ namespace Physico_BAL.Repoisitories
         public async Task<DoctorDays?> GetDayById(int id, bool trackChanges)
             => await FindByCondition(i => i.Id == id, trackChanges: trackChanges)
             .FirstOrDefaultAsync();
+        private async Task<bool> IsAppointmentAvailable(string doctorId, DateOnly appointmentDay, TimeSpan appointmentTime)
+        {
+            var existingAppointments = await _appointment.GetReserverdAppointmentsToDoctor(doctorId, appointmentDay);
+    
+            foreach (var existingAppointment in existingAppointments)
+            {
+                if (appointmentTime < existingAppointment!.Time.Add(TimeSpan.FromHours(1)) && existingAppointment.Time< appointmentTime.Add(TimeSpan.FromHours(1)))
+                {
+                    return false; 
+                }
+            }
+            return true; 
+        }
     }
 }

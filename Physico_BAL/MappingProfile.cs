@@ -20,6 +20,8 @@ namespace Physico_BAL
             CreateMap<DoctorDaysForCreationDto , DoctorDays>();
             CreateMap<DoctorDaysForUpdateDto , DoctorDays>();
             CreateMap<DoctorDays ,DoctorDaysDto>();
+            CreateMap<Appointment, AppointmentDto>();
+            CreateMap<AppointmentForCreationDto, Appointment>();
         }
     }
 }
