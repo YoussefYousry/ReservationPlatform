@@ -53,6 +53,14 @@ namespace Physico_BAL.Repoisitories
             .OrderBy(e => e.Date)
             .ToListAsync();
         }
+        public async Task<IEnumerable<AppointmentDto?>> GetReserverdAppointmentsByDoctorId( string doctorId)
+        {
+            DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
+            return await FindByCondition(a => a.DoctorId == doctorId && a.IsAvailable == false && a.Date >= currentDate, trackChanges: false)
+            .ProjectTo<AppointmentDto>(_mapper.ConfigurationProvider)
+            .OrderBy(e => e.Date)
+            .ToListAsync();
+        }
         public async Task<AppointmentDto?> GetAppointmentById(Guid Id)
             => await FindByCondition(a => a.Id == Id, trackChanges: false)
             .ProjectTo<AppointmentDto>(_mapper.ConfigurationProvider)

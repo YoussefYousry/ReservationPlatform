@@ -18,6 +18,7 @@ namespace Physico_BAL.Contracts
         Task<IEnumerable<AppointmentDto?>> GetReserverdAppointmentsByDoctorId(AppointmentParamters paramters,string doctorId);
         Task<Appointment?> GetAppointAsync(Guid Id);
         Task<AppointmentDto?> GetAppointmentById(Guid Id);
+        Task<IEnumerable<AppointmentDto?>> GetReserverdAppointmentsByDoctorId(string doctorId);
         //public bool IsAppointmentAvailable(IEnumerable<AppointmentDto> existingAppointments, TimeSpan requestedStartTime);
 
 

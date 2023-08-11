@@ -46,9 +46,9 @@ namespace Physico.Controllers
             }
         }
         //[HttpGet("Reserved/{doctorId}/{date}")]
-        //public async Task<IActionResult> GetReservedAppointments([FromQuery]AppointmentParamters paramters ,string doctorId)
+        //public async Task<IActionResult> GetReservedAppointments([FromQuery] AppointmentParamters paramters, string doctorId)
         //{
-        //    var appointments = await _repository.Appointment.GetAllReserverdAppointmentsToDoctor(paramters,doctorId , paramters.Date);
+        //    var appointments = await _repository.Appointment.GetAllReserverdAppointmentsToDoctor(paramters, doctorId, paramters.Date);
         //    if (appointments is null)
         //        return NotFound("There are no reserved appointments yet");
         //    var appointmentsToReturn = _mapper.Map<IEnumerable<AppointmentDto>>(appointments);
@@ -62,6 +62,15 @@ namespace Physico.Controllers
                 paramters.Date = DateOnly.FromDateTime(DateTime.Now.Date);
             }
             var appointments = await _repository.Appointment.GetReserverdAppointmentsByDoctorId(paramters,doctorId);
+            if (appointments is null)
+                return NotFound("There are no reserved appointments yet");
+            var appointmentsToReturn = _mapper.Map<IEnumerable<AppointmentDto>>(appointments);
+            return Ok(appointmentsToReturn);
+        }
+        [HttpGet("ReservedAppointments/{doctorId}")]
+        public async Task<IActionResult> GetAllReservedAppointmentsforDoctor( string doctorId)
+        {
+            var appointments = await _repository.Appointment.GetReserverdAppointmentsByDoctorId(doctorId);
             if (appointments is null)
                 return NotFound("There are no reserved appointments yet");
             var appointmentsToReturn = _mapper.Map<IEnumerable<AppointmentDto>>(appointments);
